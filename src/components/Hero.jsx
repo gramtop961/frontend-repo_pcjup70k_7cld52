@@ -21,15 +21,18 @@ export default function Hero() {
     <section className="relative min-h-screen w-full overflow-hidden bg-[#07071A] text-white">
       <div className="absolute inset-0">
         <Spline
-          scene="https://prod.spline.design/EF7JOSsHLk16Tlw9/scene.splinecode"
+          scene="https://prod.spline.design/Gt5HUob8aGDxOUep/scene.splinecode"
           style={{ width: '100%', height: '100%' }}
         />
       </div>
 
+      {/* Subtle dark overlay to ensure text contrast over metallic cubes */}
+      <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
+
       {/* Glow gradients */}
       <div className="pointer-events-none absolute inset-0">
-        <div className="absolute -top-24 left-1/2 h-96 w-[40rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.35),transparent_60%)] blur-3xl" />
-        <div className="absolute bottom-0 right-0 h-96 w-[36rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.3),transparent_60%)] blur-3xl" />
+        <div className="absolute -top-24 left-1/2 h-96 w-[40rem] -translate-x-1/2 rounded-full bg-[radial-gradient(circle_at_center,rgba(168,85,247,0.25),transparent_60%)] blur-3xl" />
+        <div className="absolute bottom-0 right-0 h-96 w-[36rem] rounded-full bg-[radial-gradient(circle_at_center,rgba(34,211,238,0.22),transparent_60%)] blur-3xl" />
       </div>
 
       <div className="relative mx-auto flex min-h-screen max-w-7xl flex-col items-center justify-center px-6 text-center">
@@ -50,7 +53,7 @@ export default function Hero() {
             a Full Stack Developer specializing in Java & MERN
           </h1>
 
-          <p className="mx-auto mt-6 max-w-2xl text-base text-white/70 sm:text-lg">
+          <p className="mx-auto mt-6 max-w-2xl text-base text-white/80 sm:text-lg">
             I craft performant backends with Spring Boot and bring interfaces to life with React, Three.js, and cinematic motion.
           </p>
 

@@ -4,9 +4,26 @@ import { User } from 'lucide-react';
 
 export default function About() {
   const ref = React.useRef(null);
+  const cardRef = React.useRef(null);
   const { scrollYProgress } = useScroll({ target: ref, offset: ['start end', 'end start'] });
   const y1 = useTransform(scrollYProgress, [0, 1], [40, -40]);
   const y2 = useTransform(scrollYProgress, [0, 1], [-30, 30]);
+
+  const [tilt, setTilt] = React.useState({ rx: 0, ry: 0 });
+
+  const onMouseMove = (e) => {
+    const rect = cardRef.current?.getBoundingClientRect();
+    if (!rect) return;
+    const x = e.clientX - rect.left;
+    const y = e.clientY - rect.top;
+    const midX = rect.width / 2;
+    const midY = rect.height / 2;
+    const ry = ((x - midX) / midX) * 10; // rotateY
+    const rx = -((y - midY) / midY) * 10; // rotateX
+    setTilt({ rx, ry });
+  };
+
+  const onMouseLeave = () => setTilt({ rx: 0, ry: 0 });
 
   return (
     <section id="about" ref={ref} className="relative w-full overflow-hidden bg-[#0A0A22] py-24 text-white">
@@ -21,17 +38,48 @@ export default function About() {
         </div>
 
         <div className="grid items-center gap-10 md:grid-cols-2">
-          {/* Avatar */}
+          {/* Interactive Glass Card (replacing previous avatar) */}
           <motion.div
-            initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
-            viewport={{ once: true, amount: 0.3 }}
-            transition={{ duration: 0.8 }}
-            className="relative mx-auto aspect-square w-64 overflow-hidden rounded-3xl bg-gradient-to-br from-white/10 to-white/5 p-1 backdrop-blur-xl md:w-80"
+            ref={cardRef}
+            onMouseMove={onMouseMove}
+            onMouseLeave={onMouseLeave}
+            style={{
+              transform: `perspective(900px) rotateX(${tilt.rx}deg) rotateY(${tilt.ry}deg)`
+            }}
+            transition={{ type: 'spring', stiffness: 200, damping: 20 }}
+            className="relative mx-auto aspect-[4/5] w-72 select-none rounded-3xl border border-white/15 bg-white/10 p-4 shadow-[0_0_40px_rgba(167,139,250,0.25)] backdrop-blur-xl md:w-80 [transform-style:preserve-3d]"
           >
-            <div className="absolute inset-0 animate-pulse bg-[radial-gradient(circle_at_70%_-20%,rgba(168,85,247,0.45),transparent_60%),radial-gradient(circle_at_10%_120%,rgba(34,211,238,0.35),transparent_60%)]" />
-            <div className="relative flex h-full w-full items-center justify-center rounded-2xl bg-black/30">
-              <div className="h-40 w-40 rounded-full bg-[radial-gradient(circle_at_30%_30%,#a78bfa,transparent_40%),radial-gradient(circle_at_70%_60%,#22d3ee,transparent_40%)] shadow-[0_0_40px_#a78bfa55,0_0_80px_#22d3ee55]" />
+            {/* Card glow */}
+            <div className="pointer-events-none absolute inset-0 rounded-3xl bg-[radial-gradient(120%_80%_at_10%_0%,rgba(168,85,247,0.35),transparent),radial-gradient(120%_80%_at_100%_100%,rgba(34,211,238,0.25),transparent)]" />
+
+            {/* Profile content */}
+            <div className="relative z-10 h-full w-full rounded-2xl bg-black/30 p-4">
+              <div className="flex items-center gap-3">
+                <div className="h-12 w-12 shrink-0 rounded-xl bg-gradient-to-tr from-fuchsia-400 to-cyan-300 shadow-[0_0_30px_#a78bfa66]" />
+                <div>
+                  <h3 className="text-lg font-semibold">Jayanth Kumar</h3>
+                  <p className="text-xs text-white/70">Full Stack Developer — Java & MERN</p>
+                </div>
+              </div>
+
+              <div className="mt-4 space-y-2 text-sm text-white/80">
+                <p>Crafting systems that scale while keeping the UI playful and cinematic.</p>
+                <p className="text-white/60">Loves: 3D Web, Microservices, DX</p>
+              </div>
+
+              {/* Scanning shimmer */}
+              <div className="pointer-events-none absolute inset-x-0 -top-1 h-1/3 animate-pulse bg-[linear-gradient(to_bottom,rgba(255,255,255,0.18),transparent)]" />
+
+              {/* Floating chips inside the card */}
+              <motion.div drag dragMomentum={false} className="absolute -right-3 top-16 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white/90 shadow backdrop-blur" style={{ transform: 'translateZ(40px)' }}>
+                React 3D
+              </motion.div>
+              <motion.div drag dragMomentum={false} className="absolute left-6 bottom-6 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white/90 shadow backdrop-blur" style={{ transform: 'translateZ(40px)' }}>
+                Spring Boot
+              </motion.div>
+              <motion.div drag dragMomentum={false} className="absolute right-8 bottom-14 rounded-full border border-white/10 bg-white/10 px-3 py-1 text-xs text-white/90 shadow backdrop-blur" style={{ transform: 'translateZ(40px)' }}>
+                MongoDB
+              </motion.div>
             </div>
           </motion.div>
 

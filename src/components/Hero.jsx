@@ -21,12 +21,12 @@ export default function Hero() {
     <section className="relative min-h-screen w-full overflow-hidden bg-[#07071A] text-white">
       <div className="absolute inset-0">
         <Spline
-          scene="https://prod.spline.design/Gt5HUob8aGDxOUep/scene.splinecode"
+          scene="https://prod.spline.design/ESO6PnMadasO0hU3/scene.splinecode"
           style={{ width: '100%', height: '100%' }}
         />
       </div>
 
-      {/* Subtle dark overlay to ensure text contrast over metallic cubes */}
+      {/* Subtle dark overlay to ensure text contrast over the cover background */}
       <div className="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/40 via-black/30 to-black/50" />
 
       {/* Glow gradients */}
